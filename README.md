@@ -1,1 +1,2 @@
-# Rookies_Assignment
+# The Rookies's assignment
+Detail: TBA
