@@ -1,0 +1,6 @@
+app:
+    datasource:
+        jdbcUrl: jdbc:postgresql://localhost:5432/rookies
+        username: postgres
+        password: 0502
+        pool-size: 30
