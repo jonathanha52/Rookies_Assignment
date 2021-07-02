@@ -19,11 +19,24 @@ public class CustomerService implements ICustomerService{
     public CustomerService(CustomerRepository userRepository){
         this.userRepository = userRepository;
     }
-
+    
+    @Override
+    public Optional<Customer> findById(Long id){
+        return this.userRepository.findById(id);
+    }
+    public Optional<Customer> findByUserName(String username){
+        return this.userRepository.findByUserName(username);
+    }
     @Override
     public List<Customer> findAll(){
         return this.userRepository.findAll();
     }
+    @Override
+    public void updateCustomer(Customer customer){
+        this.userRepository.save(customer);
+    }
+
+
     /*
     @Override
     public Optional<Customer> findByUserName(String username){
