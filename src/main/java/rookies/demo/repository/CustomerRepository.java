@@ -14,6 +14,8 @@ import rookies.demo.model.Customer;
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
+    public Optional<Customer> findByUserName(String userName);
+
     /*
     @Query(value="select (id, username, last_name, first_name, password) from customer where username = :username", nativeQuery = true)
     public Optional<Customer> findByUserName(@Param("username") String userName);
