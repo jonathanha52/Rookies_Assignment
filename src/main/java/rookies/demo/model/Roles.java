@@ -5,6 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.NaturalId;
+
 import javax.persistence.GenerationType;
 
 import java.util.Objects;
@@ -18,6 +21,7 @@ public class Roles {
     Integer id;
 
     @Column(name = "role_name")
+    @NaturalId(mutable = true)
     String roleName;
 
     protected Roles(){}
@@ -34,8 +38,8 @@ public class Roles {
     public void setId(int id){
         this.id = id;
     }
-    public void setRoleName(String roleName){
-        this.roleName = roleName;
+    public void setRoleName(String name){
+        this.roleName = name;
     }
 
     @Override

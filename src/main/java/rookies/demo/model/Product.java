@@ -19,7 +19,7 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "role_id")
-    Integer id;
+    Long id;
 
     @Column(name = "product_name")
     String productName;
@@ -39,7 +39,7 @@ public class Product {
     Category category;
 
     protected Product(){}
-    public Product(int id, String productName, String productDescription, Double price, Unit unit, Category category){
+    public Product(long id, String productName, String productDescription, Double price, Unit unit, Category category){
         this.id = id;
         this.productName = productName;
         this.productDescription = productDescription;
@@ -48,7 +48,7 @@ public class Product {
         this.category = category;
     }
     //GETTER
-    public int getId(){
+    public long getId(){
         return this.id;
     }
     public String getProductName(){
@@ -67,7 +67,7 @@ public class Product {
         return this.category;
     }
     //SETTER
-    public void setId(int id){
+    public void setId(long id){
         this.id = id;;
     }
     public void setProductName(String productName){
