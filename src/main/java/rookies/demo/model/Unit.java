@@ -15,7 +15,7 @@ public class Unit {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "unit")
+    @Column(name = "id")
     Integer id;
 
     @Column(name = "unit_name")

@@ -9,6 +9,4 @@ import rookies.demo.model.Users;
 
 @Repository("users")
 public interface UsersRepository extends JpaRepository<Users, Integer>{
-    
-    public List<Users> findByCategory(String category);
 }
