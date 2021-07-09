@@ -6,4 +6,5 @@ import rookies.demo.model.Category;
 
 public interface ICategoryService {
     public List<Category> findAllCategory();
+    public void updateCategory(Category category);
 }

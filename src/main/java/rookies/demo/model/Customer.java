@@ -29,7 +29,6 @@ public class Customer {
     String password;
 
     protected Customer(){}
-
     public Customer(Long id, String username, String firstName, String lastName, String password){
         this.id = id;
         this.userName = username;
@@ -43,6 +42,7 @@ public class Customer {
         this.lastName = lastName;
         this.password = password;
     }
+    //GETTER
     public Long getId(){
         return this.id;
     }
@@ -58,8 +58,7 @@ public class Customer {
     public String getPassword(){
         return this.password;
     }
-
-
+    //SETTER
     public void setId(Long id){
         this.id = id;
     }

@@ -7,7 +7,8 @@ import rookies.demo.model.Category;
 public interface IProductService {
 
     public Product findById(Long id);
-    public List<Product> findAllProduct();
+    public List<Product> findProductByPage(int page, int itemPerPage);
+    public List<Product> findAll();
     //public List<Product> findProductByName(String name);
     public List<Product> findByCategory(Category category);
     public Product insertProduct(Product product);

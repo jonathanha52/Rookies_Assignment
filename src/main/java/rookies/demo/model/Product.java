@@ -1,6 +1,7 @@
 package rookies.demo.model;
 
 import java.util.Objects;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="product")
@@ -35,17 +38,40 @@ public class Product {
     Unit unit;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "created_by", referencedColumnName = "user_id")
+    Users user;
+
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category", referencedColumnName = "category_id")
     Category category;
 
+    @Column(name = "created_date")
+    @Temporal(TemporalType.DATE)
+    Date createdDate;
+
+    @Column(name = "updated_date")
+    @Temporal(TemporalType.DATE)
+    Date updatedDate;
+
     public Product(){}
-    public Product(long id, String productName, String productDescription, Double price, Unit unit, Category category){
+    public Product(long id, String productName, String productDescription, Double price, Unit unit, Category category, Date createdDate, Date updatedDate){
         this.id = id;
         this.productName = productName;
         this.productDescription = productDescription;
         this.price = price;
         this.unit = unit;
         this.category = category;
+        this.createdDate = createdDate;
+        this.updatedDate = updatedDate;
+    }
+    public Product(String productName, String productDescription, Double price, Unit unit, Category category, Date createddDate, Date updatedDate){
+        this.productName = productName;
+        this.productDescription = productDescription;
+        this.price = price;
+        this.unit = unit;
+        this.category = category;
+        this.createdDate = createddDate;
+        this.updatedDate = updatedDate;
     }
     //GETTER
     public long getId(){
