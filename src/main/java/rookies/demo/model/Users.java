@@ -29,10 +29,10 @@ public class Users {
     @Column(name="password")
     String password;
     
-    @Column(name="username")
+    @Column(name="username", unique = true)
     String username;
 
-    @Column(name="email")
+    @Column(name="email", unique = true)
     String email;
 
     @Column(name="first_name")
