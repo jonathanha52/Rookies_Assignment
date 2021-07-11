@@ -36,12 +36,6 @@ public class Customer {
         this.lastName = lastName;
         this.password = password;
     }
-    public Customer(String username, String firstName, String lastName, String password){
-        this.userName = username;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.password = password;
-    }
     //GETTER
     public Long getId(){
         return this.id;

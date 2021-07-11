@@ -2,9 +2,14 @@ package rookies.demo.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.NaturalId;
+
 import javax.persistence.GenerationType;
 
 import java.util.Objects;
@@ -17,24 +22,26 @@ public class Roles {
     @Column(name = "role_id")
     Integer id;
 
+    @Enumerated(EnumType.STRING)
+    @NaturalId
     @Column(name = "role_name")
-    String roleName;
+    RoleName roleName;
 
     protected Roles(){}
-    public Roles(int id, String roleName){
+    public Roles(int id, RoleName roleName){
         this.id = id;
         this.roleName = roleName;
     }
     public int getId(){
         return this.id;
     }
-    public String getRoleName(){
+    public RoleName getRoleName(){
         return this.roleName;
     }
     public void setId(int id){
         this.id = id;
     }
-    public void setRoleName(String roleName){
+    public void setRoleName(RoleName roleName){
         this.roleName = roleName;
     }
 

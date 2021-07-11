@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,17 +48,20 @@ public class ProductController {
         return this.productService.findById(id);
     }
     
-    @PostMapping("admin/")
+    @PostMapping("admin/product")
+    @Secured("ADMIN")
     public void addProduct(@RequestBody Product product){
         this.productService.insertProduct(product);
     }
     
-    @DeleteMapping("admin/id={id}")
+    @DeleteMapping("admin/product/id={id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteProduct(@PathVariable("id") long id, @RequestBody Product product){
         this.productService.deleteProduct(product);
     }
 
-    @PutMapping("admin/id={id}")
+    @PutMapping("admin/product/id={id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public void updateProduct(@PathVariable("id") long id, @RequestBody Product product){
         this.productService.updateProduct(product);
     }
