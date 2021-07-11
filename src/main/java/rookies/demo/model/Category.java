@@ -22,26 +22,35 @@ public class Category {
     @Column(name = "category_name")
     String name;
 
+    @Column(name = "description")
+    String description;
+
     protected Category(){}
-    public Category(int id, String name){
+    public Category(int id, String name, String description){
         this.id = id;
         this.name = name;
+        this.description = description;
     }
-
+    //GETTER
     public int getId(){
         return this.id;
     }
     public String getName() {
         return this.name;
     }
-    
+    public String getDescription(){
+        return this.description;
+    }
+    //SETTER
     public void setId(int id){
         this.id = id;
     }
     public void setName(String name){
         this.name = name;
     }
-
+    public void setDescrption(String description){
+        this.description = description;
+    }
     @Override
     public String toString(){
         StringBuilder builder = new StringBuilder();
@@ -64,6 +73,9 @@ public class Category {
         if(this.getClass() != obj.getClass())
             return false;
         Category other = (Category)obj;
-        return this.id == other.id;
+        boolean isEqual = this.id == other.id &&
+            this.name.equals(other.name) &&
+            this.description.equals(other.description);
+        return isEqual;
     }
 }

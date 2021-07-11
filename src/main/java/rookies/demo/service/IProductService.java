@@ -5,7 +5,10 @@ import rookies.demo.model.Product;
 import rookies.demo.model.Category;
 
 public interface IProductService {
-    public List<Product> findAllProduct();
+
+    public Product findById(Long id);
+    public List<Product> findProductByPage(int page, int itemPerPage);
+    public List<Product> findAll();
     //public List<Product> findProductByName(String name);
     public List<Product> findByCategory(Category category);
     public Product insertProduct(Product product);
