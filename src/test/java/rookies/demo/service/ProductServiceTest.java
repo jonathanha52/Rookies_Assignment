@@ -17,11 +17,11 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import rookies.demo.repository.ProductRepository;
+import rookies.demo.repository.CategoryRepository;
 import rookies.demo.service.impl.ProductService;
 import rookies.demo.exception.IdNotFoundException;
 import rookies.demo.model.Category;
 import rookies.demo.model.Product;
-import rookies.demo.model.Unit;
 
 @SpringBootTest
 public class ProductServiceTest {
@@ -29,7 +29,7 @@ public class ProductServiceTest {
     private final Long VALID_ID = 1L;
     private final Category TEST_CATEGORY = new Category(1, "test category","this is test category");
     private final Date TEST_DATE = new Date();
-    private final Unit TEST_UNIT = new Unit(1, "test unit");
+    private final String TEST_UNIT = "test unit";
     private final Product VALID_PRODUCT = new Product(
         VALID_ID, 
         "valid product", 
@@ -53,6 +53,9 @@ public class ProductServiceTest {
 
     @Mock
     private ProductRepository productRepository;
+
+    @Mock
+    private CategoryRepository categoryRepository;
 
     @InjectMocks
     private ProductService productService;
@@ -88,8 +91,9 @@ public class ProductServiceTest {
 
     @Test
     public void testFindByCategory(){
+        when(categoryRepository.findByName(TEST_CATEGORY.getName())).thenReturn(Optional.of(TEST_CATEGORY));
         when(productRepository.findByCategory(TEST_CATEGORY)).thenReturn(TEST_PRODUCT_LIST_CATEGORY);
-        List<Product> result = productService.findByCategory(TEST_CATEGORY);
+        List<Product> result = productService.findByCategory(TEST_CATEGORY.getName());
         assertEquals(result.size(), TEST_PRODUCT_LIST_CATEGORY.size());
     }
 

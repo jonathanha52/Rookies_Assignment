@@ -19,7 +19,7 @@ import rookies.demo.service.impl.ProductService;
 
 import rookies.demo.model.Product;
 
-@RequestMapping("/")
+@RequestMapping("/api/v1/product")
 @RestController
 public class ProductController {
     int ITEM_PER_PAGE = 60;
@@ -48,19 +48,19 @@ public class ProductController {
         return this.productService.findById(id);
     }
     
-    @PostMapping("admin/product")
-    @Secured("ADMIN")
-    public void addProduct(@RequestBody Product product){
+    @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    public void insertProduct(@RequestBody Product product){
         this.productService.insertProduct(product);
     }
     
-    @DeleteMapping("admin/product/id={id}")
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteProduct(@PathVariable("id") long id, @RequestBody Product product){
         this.productService.deleteProduct(product);
     }
 
-    @PutMapping("admin/product/id={id}")
+    @PutMapping("{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public void updateProduct(@PathVariable("id") long id, @RequestBody Product product){
         this.productService.updateProduct(product);

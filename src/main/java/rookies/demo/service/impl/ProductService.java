@@ -13,18 +13,22 @@ import org.springframework.stereotype.Service;
 
 import rookies.demo.model.Category;
 import rookies.demo.model.Product;
+import rookies.demo.repository.CategoryRepository;
 import rookies.demo.repository.ProductRepository;
 import rookies.demo.service.IProductService;
 
 import rookies.demo.exception.IdNotFoundException;
+import rookies.demo.exception.CategoryException.CategoryNotFoundException;
 
 @Service("productService")
 public class ProductService implements IProductService{
 
     ProductRepository productRepository; 
+    CategoryRepository categoryRepository;
 
     @Autowired
-    public ProductService(@Qualifier("productRepo")ProductRepository productRepository){
+    public ProductService(@Qualifier("productRepo")ProductRepository productRepository, @Qualifier("categoryRepo")CategoryRepository categoryRepository){
+        this.categoryRepository = categoryRepository;
         this.productRepository = productRepository;
     }
     public List<Product> findByProductName(String name){
@@ -44,7 +48,8 @@ public class ProductService implements IProductService{
     }
 
     @Override
-    public List<Product> findByCategory(Category category) { //TODO: Chinh tham số
+    public List<Product> findByCategory(String name) {
+        Category category = categoryRepository.findByName(name).orElseThrow(() -> new CategoryNotFoundException(name));
         return this.productRepository.findByCategory(category);
     }
 
