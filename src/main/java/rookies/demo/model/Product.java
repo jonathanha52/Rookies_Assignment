@@ -33,9 +33,8 @@ public class Product {
     @Column(name = "price")
     double price;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "unit", referencedColumnName = "id")
-    Unit unit;
+    @Column(name = "unit")
+    String unit;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "created_by", referencedColumnName = "user_id")
@@ -54,7 +53,7 @@ public class Product {
     Date updatedDate;
 
     public Product(){}
-    public Product(long id, String productName, String productDescription, Double price, Unit unit, Category category, Date createdDate, Date updatedDate){
+    public Product(long id, String productName, String productDescription, Double price, String unit, Category category, Date createdDate, Date updatedDate){
         this.id = id;
         this.productName = productName;
         this.productDescription = productDescription;
@@ -64,7 +63,7 @@ public class Product {
         this.createdDate = createdDate;
         this.updatedDate = updatedDate;
     }
-    public Product(String productName, String productDescription, Double price, Unit unit, Category category, Date createddDate, Date updatedDate){
+    public Product(String productName, String productDescription, Double price, String unit, Category category, Date createddDate, Date updatedDate){
         this.productName = productName;
         this.productDescription = productDescription;
         this.price = price;
@@ -86,11 +85,17 @@ public class Product {
     public double getPrice(){
         return this.price;
     }
-    public Unit getUnit(){
+    public String getUnit(){
         return this.unit;
     }
     public Category getCategory(){
         return this.category;
+    }
+    public Date getCreatedDate(){
+        return this.createdDate;
+    }
+    public Date getUpdatedDate(){
+        return this.createdDate;
     }
     //SETTER
     public void setId(long id){
@@ -105,11 +110,17 @@ public class Product {
     public void setPrice(double price){
         this.price = price;
     }
-    public void setUnit(Unit unit){
+    public void setUnit(String unit){
         this.unit = unit;
     }
     public void setCategory(Category category){
         this.category = category;
+    }
+    public void setCreatedDate(Date date){
+        this.createdDate = date;
+    }
+    public void setUpdateddDate(Date date){
+        this.createdDate = date;
     }
     @Override
     public int hashCode(){
@@ -140,7 +151,7 @@ public class Product {
         builder.append("name = "+this.productName+", ");
         builder.append("description = "+this.productDescription+", ");
         builder.append("price = "+this.price+", ");
-        builder.append("unit = "+this.unit.getName() + ", ");
+        builder.append("unit = "+this.unit + ", ");
         builder.append("category = "+this.category.getName() + "]\n");
         return builder.toString();
     }

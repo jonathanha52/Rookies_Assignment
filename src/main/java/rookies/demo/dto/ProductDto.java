@@ -6,10 +6,10 @@ import lombok.Data;
 
 @Data
 public class ProductDto {
-    Integer id;
+    Long id;
     String name;
-    int categoryId;
-    int unitId;
+    String category;
+    String unit;
     Long createBy;
     String description;
     double price;
