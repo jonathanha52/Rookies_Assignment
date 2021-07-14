@@ -8,4 +8,5 @@ import rookies.demo.model.Category;
 
 public interface CategoryReposity extends JpaRepository<Category, Integer>{
     public Optional<Category> findById(int id);
+    public Optional<Category> findByName(String name);
 }

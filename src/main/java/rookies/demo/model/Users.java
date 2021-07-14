@@ -36,10 +36,10 @@ public class Users {
     String email;
 
     @Column(name="first_name")
-    String firstName;
+    String firstName = "";
 
     @Column(name="last_name")
-    String lastName;
+    String lastName = "";
 
     protected Users(){}
 

@@ -23,7 +23,6 @@ import rookies.demo.service.impl.ProductService;
 import rookies.demo.model.Product;
 import rookies.demo.model.RoleName;
 import rookies.demo.model.Category;
-import rookies.demo.model.Unit;
 
 import rookies.demo.utils.ConvertJSONString;
 
@@ -34,7 +33,7 @@ public class ProductControllerTest {
     private final Long VALID_ID = 1L;
     private final Category TEST_CATEGORY = new Category(1, "test category","this is test category");
     private final Date TEST_DATE = new Date();
-    private final Unit TEST_UNIT = new Unit(1, "test unit");
+    private final String TEST_UNIT = "test unit";
     private final Product VALID_PRODUCT = new Product(
         VALID_ID, 
         "valid product", 
