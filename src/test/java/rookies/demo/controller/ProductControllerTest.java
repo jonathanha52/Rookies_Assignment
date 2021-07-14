@@ -21,7 +21,6 @@ import static org.mockito.Mockito.when;
 import rookies.demo.repository.ProductRepository;
 import rookies.demo.service.impl.ProductService;
 import rookies.demo.model.Product;
-import rookies.demo.model.RoleName;
 import rookies.demo.model.Category;
 
 import rookies.demo.utils.ConvertJSONString;
@@ -29,7 +28,6 @@ import rookies.demo.utils.ConvertJSONString;
 @SpringBootTest
 @AutoConfigureMockMvc(addFilters = false)
 public class ProductControllerTest {
-    private final Long INVALID_ID = -1L;
     private final Long VALID_ID = 1L;
     private final Category TEST_CATEGORY = new Category(1, "test category","this is test category");
     private final Date TEST_DATE = new Date();
@@ -55,11 +53,12 @@ public class ProductControllerTest {
     @Test
     @WithMockUser(username="user1",roles = "CUSTOMER")
     public void testAddProduct_WrongAuth() throws Exception{
-        this.mockMvc.perform(post("/admin/product/")
+        this.mockMvc.perform(post("/api/v1/product")
                     .content(ConvertJSONString.ObjToJSON(VALID_PRODUCT))
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON))
-                    .andExpect(status().isUnauthorized());
+                    .andExpect(status().isOk())
+                    .andExpect(status().isForbidden());
     }
     
     @Test

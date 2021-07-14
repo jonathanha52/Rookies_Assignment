@@ -18,7 +18,7 @@ import rookies.demo.service.impl.ProductService;
 import rookies.demo.model.Product;
 import rookies.demo.dto.ProductDto;
 
-@RequestMapping("/api/v1/products")
+@RequestMapping("/api/v1/product")
 @RestController
 public class ProductController {
     int ITEM_PER_PAGE = 60;

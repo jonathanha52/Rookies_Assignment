@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import rookies.demo.repository.ProductRepository;
+import rookies.demo.repository.CategoryRepository;
 import rookies.demo.service.impl.ProductService;
 import rookies.demo.exception.IdNotFoundException;
 import rookies.demo.model.Category;
@@ -55,6 +56,9 @@ public class ProductServiceTest {
     @Mock
     private ProductRepository productRepository;
 
+    @Mock
+    private CategoryRepository categoryRepository;
+
     @InjectMocks
     private ProductService productService;
 
@@ -89,6 +93,7 @@ public class ProductServiceTest {
 
     @Test
     public void testFindByCategory(){
+        when(categoryRepository.findByName(TEST_CATEGORY.getName())).thenReturn(Optional.of(TEST_CATEGORY));
         when(productRepository.findByCategory(TEST_CATEGORY)).thenReturn(TEST_PRODUCT_LIST_CATEGORY);
         List<Product> result = productService.findByCategory(TEST_CATEGORY.getName(), PAGE, ITEM_PER_PAGE);
         assertEquals(result.size(), TEST_PRODUCT_LIST_CATEGORY.size());

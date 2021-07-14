@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import rookies.demo.model.Category;
 import rookies.demo.model.Product;
-import rookies.demo.repository.CategoryReposity;
+import rookies.demo.repository.CategoryRepository;
 import rookies.demo.repository.ProductPagingRepository;
 import rookies.demo.repository.ProductRepository;
 import rookies.demo.service.IProductService;
@@ -24,15 +24,22 @@ public class ProductService implements IProductService{
 
     ProductPagingRepository productPagingRepository;
     ProductRepository productRepository; 
-    CategoryReposity categoryReposity;
+    CategoryRepository categoryReposity;
 
     @Autowired
-    public ProductService(ProductPagingRepository productPagingRepository, ProductRepository productRepository, CategoryReposity categoryReposity){
+    public ProductService(ProductPagingRepository productPagingRepository, ProductRepository productRepository, CategoryRepository categoryReposity){
         this.productPagingRepository = productPagingRepository;
         this.productRepository = productRepository;
         this.categoryReposity = categoryReposity;
     }
-    
+    public List<Product> findByProductName(String name){
+        return productRepository.findByProductNameContaining(name);
+    }
+    @Override
+    public Product findById(Long id){
+        return this.productRepository.findById(id).orElseThrow(() -> new IdNotFoundException(id));
+    }
+
     @Override
     public void insertProduct(Product product) {
         this.productRepository.save(product);
@@ -87,11 +94,6 @@ public class ProductService implements IProductService{
         return result;
     }
 
-    @Override
-    public Product findById(Long id) {
-        Product result = productRepository.findById(id).orElseThrow(() -> new IdNotFoundException(id));
-        return result;
-    }
     
     private int[] calculatePage(int page, int itemPerPage){
         int[] result = new int[2];
