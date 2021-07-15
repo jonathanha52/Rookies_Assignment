@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import rookies.demo.dto.CategoryDto;
 import rookies.demo.exception.DuplicateException;
 import rookies.demo.exception.IdNotFoundException;
 import rookies.demo.model.Category;
@@ -51,6 +52,24 @@ public class CategoryService implements ICategoryService {
             this.categoryRepository.save(category);
         else
             throw new DuplicateException("Category");
+    }
+
+    @Override
+    public Category DtoToEntity(CategoryDto categoryDto) {
+        Category entity = new Category();
+        entity.setName(categoryDto.getName());
+        entity.setDescrption(categoryDto.getDescription());
+        entity.setId(categoryDto.getId());
+        return entity;
+    }
+
+    @Override
+    public CategoryDto EntityToEdto(Category category) {
+        CategoryDto dto = new CategoryDto();
+        dto.setName(category.getName());
+        dto.setDescription(category.getDescription());
+        dto.setId(category.getId());
+        return dto;
     }
     
 }

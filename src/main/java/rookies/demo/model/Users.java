@@ -41,7 +41,7 @@ public class Users {
     @Column(name="last_name")
     String lastName = "";
 
-    protected Users(){}
+    public Users(){}
 
     public Users(long id, Roles role, String username, String email, String firstName, String lastName, String password){
         this.userID = id;

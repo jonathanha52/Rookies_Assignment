@@ -28,7 +28,7 @@ public class Category {
     @Column(name = "description")
     String description;
 
-    protected Category(){}
+    public Category(){}
     public Category(int id, String name, String description){
         this.id = id;
         this.name = name;

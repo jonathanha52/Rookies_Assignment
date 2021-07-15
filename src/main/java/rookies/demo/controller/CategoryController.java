@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import rookies.demo.dto.CategoryDto;
 import rookies.demo.model.Category;
 import rookies.demo.service.impl.CategoryService;
 
@@ -28,17 +29,20 @@ public class CategoryController {
     }
 
     @PostMapping
-    public void insertCategory(@RequestBody Category category){
+    public void insertCategory(@RequestBody CategoryDto categoryDto){
+        Category category = this.categoryService.DtoToEntity(categoryDto);
         this.categoryService.insertCategory(category);
     }
 
-    @PutMapping("/id={id}")
-    public void updateCategory(@PathVariable("id") int id, @RequestBody Category category){
+    @PutMapping("/{id}")
+    public void updateCategory(@PathVariable("id") int id, @RequestBody CategoryDto categoryDto){
+        Category category = this.categoryService.DtoToEntity(categoryDto);
         this.categoryService.updateCategory(id, category);
     }
 
-    @DeleteMapping("/id={id}")
-    public void deleteProduct(@PathVariable("id") int id, @RequestBody Category category){
+    @DeleteMapping("/{id}")
+    public void deleteProduct(@PathVariable("id") int id, @RequestBody CategoryDto categoryDto){
+        Category category = this.categoryService.DtoToEntity(categoryDto);
         this.categoryService.deleteCategory(id, category);
     }
 }
