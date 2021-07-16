@@ -1,5 +1,6 @@
 package rookies.demo.model;
 
+import java.util.Set;
 import java.util.Objects;
 import java.util.Date;
 
@@ -11,9 +12,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import rookies.demo.model.Rating;
 
 @Entity
 @Table(name="product")
@@ -21,7 +25,7 @@ public class Product {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "role_id")
+    @Column(name = "id")
     Long id;
 
     @Column(name = "product_name")
@@ -52,8 +56,11 @@ public class Product {
     @Temporal(TemporalType.DATE)
     Date updatedDate;
 
+    @OneToMany(mappedBy = "product_id")
+    Set<Rating> rating;
+
     public Product(){}
-    public Product(long id, String productName, String productDescription, Double price, String unit, Category category, Date createdDate, Date updatedDate){
+    public Product(long id, String productName, String productDescription, Double price, String unit, Category category, Date createdDate, Date updatedDate, Set<Rating> rating){
         this.id = id;
         this.productName = productName;
         this.productDescription = productDescription;
@@ -62,8 +69,9 @@ public class Product {
         this.category = category;
         this.createdDate = createdDate;
         this.updatedDate = updatedDate;
+        this.rating = rating;
     }
-    public Product(String productName, String productDescription, Double price, String unit, Category category, Date createddDate, Date updatedDate){
+    public Product(String productName, String productDescription, Double price, String unit, Category category, Date createddDate, Date updatedDate, Set<Rating> rating){
         this.productName = productName;
         this.productDescription = productDescription;
         this.price = price;
@@ -71,6 +79,7 @@ public class Product {
         this.category = category;
         this.createdDate = createddDate;
         this.updatedDate = updatedDate;
+        this.rating = rating;
     }
     //GETTER
     public long getId(){
@@ -97,6 +106,9 @@ public class Product {
     public Date getUpdatedDate(){
         return this.createdDate;
     }
+    public Set<Rating> getRating(){
+        return this.rating;
+    }
     //SETTER
     public void setId(long id){
         this.id = id;;
@@ -121,6 +133,9 @@ public class Product {
     }
     public void setUpdateddDate(Date date){
         this.createdDate = date;
+    }
+    public void setRating(Set<Rating> rating){
+        this.rating = rating;
     }
     @Override
     public int hashCode(){

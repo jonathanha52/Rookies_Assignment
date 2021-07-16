@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Set;
+import java.util.HashSet;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -22,6 +24,7 @@ import rookies.demo.service.impl.ProductService;
 import rookies.demo.exception.IdNotFoundException;
 import rookies.demo.model.Category;
 import rookies.demo.model.Product;
+import rookies.demo.model.Rating;
 
 @SpringBootTest
 public class ProductServiceTest {
@@ -32,6 +35,7 @@ public class ProductServiceTest {
     private final Category TEST_CATEGORY = new Category(1, "test category","this is test category");
     private final Date TEST_DATE = new Date();
     private final String TEST_UNIT = "test unit";
+    private final Set<Rating> RATING = new HashSet<>();
     private final Product VALID_PRODUCT = new Product(
         VALID_ID, 
         "valid product", 
@@ -40,7 +44,8 @@ public class ProductServiceTest {
         TEST_UNIT,
         TEST_CATEGORY,
         TEST_DATE,
-        TEST_DATE);
+        TEST_DATE,
+        RATING);
     private final Product INVALID_PRODUCT = new Product(
         INVALID_ID, 
         "invalid product", 
@@ -49,7 +54,8 @@ public class ProductServiceTest {
         TEST_UNIT,
         TEST_CATEGORY,
         TEST_DATE,
-        TEST_DATE);
+        TEST_DATE,
+        RATING);
     private final List<Product> TEST_PRODUCT_LIST_ALL = new ArrayList<Product>(Arrays.asList(VALID_PRODUCT, INVALID_PRODUCT));
     private final List<Product> TEST_PRODUCT_LIST_CATEGORY = new ArrayList<Product>(Arrays.asList(VALID_PRODUCT, INVALID_PRODUCT));
 

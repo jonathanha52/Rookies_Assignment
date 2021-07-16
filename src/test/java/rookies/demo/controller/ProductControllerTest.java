@@ -3,6 +3,8 @@ package rookies.demo.controller;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Set;
+import java.util.HashSet;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ import rookies.demo.repository.ProductRepository;
 import rookies.demo.service.impl.ProductService;
 import rookies.demo.model.Product;
 import rookies.demo.model.Category;
+import rookies.demo.model.Rating;
 
 import rookies.demo.utils.ConvertJSONString;
 
@@ -32,6 +35,7 @@ public class ProductControllerTest {
     private final Category TEST_CATEGORY = new Category(1, "test category","this is test category");
     private final Date TEST_DATE = new Date();
     private final String TEST_UNIT = "test unit";
+    private final Set<Rating> RATING = new HashSet<>();
     private final Product VALID_PRODUCT = new Product(
         VALID_ID, 
         "valid product", 
@@ -40,7 +44,8 @@ public class ProductControllerTest {
         TEST_UNIT,
         TEST_CATEGORY,
         TEST_DATE,
-        TEST_DATE);
+        TEST_DATE,
+        RATING);
     private final ArrayList<Product> PRODUCT_LIST = new ArrayList<>(Arrays.asList(VALID_PRODUCT));
     @Autowired
     private MockMvc mockMvc;
@@ -53,7 +58,7 @@ public class ProductControllerTest {
     @Test
     @WithMockUser(username="user1",roles = "CUSTOMER")
     public void testAddProduct_WrongAuth() throws Exception{
-        this.mockMvc.perform(post("/api/v1/product")
+        this.mockMvc.perform(post("/api/v1/products")
                     .content(ConvertJSONString.ObjToJSON(VALID_PRODUCT))
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON))

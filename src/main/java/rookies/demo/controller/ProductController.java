@@ -18,7 +18,7 @@ import rookies.demo.service.impl.ProductService;
 import rookies.demo.model.Product;
 import rookies.demo.dto.ProductDto;
 
-@RequestMapping("/api/v1/product")
+@RequestMapping("/api/v1/products")
 @RestController
 public class ProductController {
     int ITEM_PER_PAGE = 60;
@@ -31,7 +31,7 @@ public class ProductController {
 
     @GetMapping
     public List<Product> mainPage(){
-        return this.productService.findProductByPage(0, ITEM_PER_PAGE);
+        return this.productService.findProductByPage(1, ITEM_PER_PAGE);
     }
     @GetMapping("/page={page}")
     public List<Product> findByPage(@PathVariable("page") int page){

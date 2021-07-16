@@ -22,11 +22,11 @@ public class Rating {
     @Column(name = "rating_id")
     Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id", referencedColumnName = "product_name")
     Product product;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     Users user;
 

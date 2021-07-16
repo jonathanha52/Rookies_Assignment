@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,7 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+//import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import org.springframework.web.bind.annotation.RequestBody;
 import rookies.demo.exception.RoleException.RoleNameNotFoundException;
 import rookies.demo.model.RoleName;
 import rookies.demo.model.Roles;
@@ -40,7 +40,7 @@ public class AuthController {
     final private RoleRepository roleRepository;
     final private PasswordEncoder encoder;
     final private JwtUtils jwtUtils;
-    @Autowired
+
     public AuthController (AuthenticationManager authenticationManager, UsersRepository usersRepository,
         RoleRepository roleRepository, PasswordEncoder encoder, JwtUtils jwtUtils){
             this.authenticationManager = authenticationManager;
@@ -93,20 +93,21 @@ public class AuthController {
         user.setPassword(signUpRequest.getPassword());
         user.setUsername(encoder.encode(signUpRequest.getPassword()));
         String strRoles = signUpRequest.getRole();
+        System.out.println(strRoles);
         Roles userRole;
         if (strRoles == null) {
-            userRole = roleRepository.findByName(RoleName.CUSTOMER.name())
-                .orElseThrow(() -> new RoleNameNotFoundException(strRoles));
+            userRole = roleRepository.findByName(RoleName.CUSTOMER)
+                .orElseThrow(() -> new RoleNameNotFoundException(RoleName.CUSTOMER.name()));
         } else {
                 switch (strRoles.toLowerCase()) {
                     case "admin":
-                        userRole = roleRepository.findByName(RoleName.ADMIN.name())
-                            .orElseThrow(() -> new RoleNameNotFoundException(strRoles));
+                        userRole = roleRepository.findByName(RoleName.ADMIN)
+                            .orElseThrow(() -> new RoleNameNotFoundException(RoleName.ADMIN.name()));
 
                         break;
                     default:
-                        userRole = roleRepository.findByName(RoleName.CUSTOMER.name())
-                            .orElseThrow(() -> new RoleNameNotFoundException(strRoles));
+                        userRole = roleRepository.findByName(RoleName.CUSTOMER)
+                            .orElseThrow(() -> new RoleNameNotFoundException(RoleName.CUSTOMER.name()));
                 
             };
         }
