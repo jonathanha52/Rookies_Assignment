@@ -2,30 +2,35 @@ package rookies.demo.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import rookies.demo.model.Category;
 import rookies.demo.model.Product;
+import rookies.demo.repository.CategoryRepository;
+import rookies.demo.repository.ProductPagingRepository;
 import rookies.demo.repository.ProductRepository;
 import rookies.demo.service.IProductService;
-
+import rookies.demo.dto.ProductDto;
 import rookies.demo.exception.IdNotFoundException;
+import rookies.demo.exception.CategoryException.CategoryNameNotFoundException;
 
 @Service("productService")
 public class ProductService implements IProductService{
 
+    ProductPagingRepository productPagingRepository;
     ProductRepository productRepository; 
+    CategoryRepository categoryReposity;
 
     @Autowired
-    public ProductService(@Qualifier("productRepo")ProductRepository productRepository){
+    public ProductService(ProductPagingRepository productPagingRepository, ProductRepository productRepository, CategoryRepository categoryReposity){
+        this.productPagingRepository = productPagingRepository;
         this.productRepository = productRepository;
+        this.categoryReposity = categoryReposity;
     }
     public List<Product> findByProductName(String name){
         return productRepository.findByProductNameContaining(name);
@@ -34,35 +39,21 @@ public class ProductService implements IProductService{
     public Product findById(Long id){
         return this.productRepository.findById(id).orElseThrow(() -> new IdNotFoundException(id));
     }
-    @Override
-    public List<Product> findAll() {
-        List<Product> result = new ArrayList<>();
-        Iterable<Product> fromDb = this.productRepository.findAll();
-        fromDb.forEach(result::add); 
 
-        return result;
+    @Override
+    public void insertProduct(Product product) {
+        this.productRepository.save(product);
     }
 
     @Override
-    public List<Product> findByCategory(Category category) { //TODO: Chinh tham số
-        return this.productRepository.findByCategory(category);
-    }
-
-    @Override
-    public Product insertProduct(Product product) {
-        return this.productRepository.save(product);
-    }
-
-    @Override
-    public void deleteProduct(Product product) {
+    public void deleteProduct(long id, Product product) {
         this.productRepository.findById(product.getId()).orElseThrow(() -> new IdNotFoundException(product.getId()));
         this.productRepository.delete(product);
     }
 
     @Override
     @Transactional
-    public void updateProduct(Product product) {
-        Long id = product.getId();
+    public void updateProduct(long id, Product product) {
         Product result = this.productRepository.findById(id).orElseThrow(() -> new IdNotFoundException(id));
         result.setCategory(product.getCategory());
         result.setPrice(product.getPrice());
@@ -72,14 +63,71 @@ public class ProductService implements IProductService{
     }
     @Override
     public List<Product> findProductByPage(int page, int itemPerPage) {
-        int from = (page-1)*itemPerPage;
-        int to = page*itemPerPage;
-        Pageable pageable = PageRequest.of(from, to);
-        List<Product> result = new ArrayList<>();
+        int[] paging = calculatePage(page, itemPerPage);
+        Pageable pageable = PageRequest.of(paging[0], paging[1]);
         Iterable<Product> fromDb = this.productRepository.findAll(pageable);
-        fromDb.forEach(result::add); 
+        List<Product> result = new ArrayList<>();
+        fromDb.forEach(result::add);
 
         return result;
+    }
+
+    @Override
+    public List<Product> findAll() {
+        return this.productRepository.findAll();
+    }
+
+    @Override
+    public List<Product> findProductByName(String name, int page, int itemPerPage) {
+        int[] paging = this.calculatePage(page, itemPerPage);
+        Pageable pageable = PageRequest.of(paging[0], paging[1]);
+        List<Product> result = this.productPagingRepository.findAllByProductNameContaining(name, pageable);
+        return result;
+    }
+
+    @Override
+    public List<Product> findByCategory(String category, int page, int itemPerPage) {
+        Category resultCategory = this.categoryReposity.findByName(category).orElseThrow(() -> new CategoryNameNotFoundException(category));
+        int[] paging = this.calculatePage(page, itemPerPage);
+        Pageable pageable = PageRequest.of(paging[0], paging[1]);
+        List<Product> result = this.productPagingRepository.findAllByCategory(resultCategory, pageable);
+        return result;
+    }
+
+    
+    private int[] calculatePage(int page, int itemPerPage){
+        int[] result = new int[2];
+        result[0] = (page-1)*itemPerPage;
+        result[1] = page*itemPerPage - 1;
+        return result;
+    }
+
+    @Override
+    public Product DtoToEntity(ProductDto productDto) {
+        Product product = new Product();
+        Category category = categoryReposity.findByName(productDto.getCategory()).orElseThrow(() -> new CategoryNameNotFoundException(productDto.getCategory()));
+        product.setProductName(productDto.getName());
+        product.setCategory(category);
+        product.setPrice(productDto.getPrice());
+        product.setProductDescription(productDto.getDescription());
+        product.setUnit(productDto.getUnit());
+        product.setCreatedDate(productDto.getCreatedDate());
+        product.setUpdateddDate(productDto.getUpdatedDate());
+        return product;
+    }
+
+    @Override
+    public ProductDto EntityToDto(Product product) {
+        ProductDto productDto = new ProductDto();
+        productDto.setCategory(product.getCategory().getName());
+        productDto.setDescription(product.getProductDescription());
+        productDto.setId(product.getId());
+        productDto.setUnit(product.getUnit());
+        productDto.setCreatedDate(product.getCreatedDate());
+        productDto.setUpdatedDate(product.getUpdatedDate());
+        productDto.setName(product.getProductName());
+        productDto.setPrice(product.getPrice());
+        return productDto;
     }
     
 }

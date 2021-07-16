@@ -36,12 +36,12 @@ public class Users {
     String email;
 
     @Column(name="first_name")
-    String firstName;
+    String firstName = "";
 
     @Column(name="last_name")
-    String lastName;
+    String lastName = "";
 
-    protected Users(){}
+    public Users(){}
 
     public Users(long id, Roles role, String username, String email, String firstName, String lastName, String password){
         this.userID = id;

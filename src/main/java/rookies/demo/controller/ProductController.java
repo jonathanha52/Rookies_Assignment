@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,8 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import rookies.demo.service.impl.ProductService;
 
 import rookies.demo.model.Product;
+import rookies.demo.dto.ProductDto;
 
-@RequestMapping("/")
+@RequestMapping("/api/v1/products")
 @RestController
 public class ProductController {
     int ITEM_PER_PAGE = 60;
@@ -32,38 +31,38 @@ public class ProductController {
 
     @GetMapping
     public List<Product> mainPage(){
-        return this.productService.findProductByPage(0, ITEM_PER_PAGE);
+        return this.productService.findProductByPage(1, ITEM_PER_PAGE);
     }
-    @GetMapping("/page={count}")
-    public List<Product> findByPage(@PathVariable int page){
+    @GetMapping("/page={page}")
+    public List<Product> findByPage(@PathVariable("page") int page){
         return this.productService.findProductByPage(page, ITEM_PER_PAGE);
     }
-    @GetMapping("/search={name}")
-    public List<Product> findByName(@PathVariable("name") String name){
-        return this.productService.findByProductName(name);
+    @GetMapping("/name={name}&page={page}")
+    public List<Product> findByName(@PathVariable("name") String name, @PathVariable("page") int page){
+        return this.productService.findProductByName(name, page, ITEM_PER_PAGE);
     }
 
-    @GetMapping("/id={id}")
+    @GetMapping("/{id}")
     public Product findById(@PathVariable("id") long id){
         return this.productService.findById(id);
     }
     
-    @PostMapping("admin/product")
-    @Secured("ADMIN")
-    public void addProduct(@RequestBody Product product){
+    @PostMapping
+    public void addProduct(@RequestBody ProductDto productDto){
+        Product product = productService.DtoToEntity(productDto);
         this.productService.insertProduct(product);
     }
     
-    @DeleteMapping("admin/product/id={id}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public void deleteProduct(@PathVariable("id") long id, @RequestBody Product product){
-        this.productService.deleteProduct(product);
+    @DeleteMapping("/{id}")
+    public void deleteProduct(@PathVariable("id") long id, @RequestBody ProductDto productDto){
+        Product product = productService.DtoToEntity(productDto);
+        this.productService.deleteProduct(id, product);
     }
 
-    @PutMapping("admin/product/id={id}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public void updateProduct(@PathVariable("id") long id, @RequestBody Product product){
-        this.productService.updateProduct(product);
+    @PutMapping("/{id}")
+    public void updateProduct(@PathVariable("id") long id, @RequestBody ProductDto productDto){
+        Product product = productService.DtoToEntity(productDto);
+        this.productService.updateProduct(id, product);
     }
 
 

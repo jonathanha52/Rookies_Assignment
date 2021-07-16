@@ -25,24 +25,24 @@ public class Roles {
     @Enumerated(EnumType.STRING)
     @NaturalId
     @Column(name = "role_name")
-    RoleName roleName;
+    RoleName name;
 
     protected Roles(){}
-    public Roles(int id, RoleName roleName){
+    public Roles(int id, RoleName name){
         this.id = id;
-        this.roleName = roleName;
+        this.name = name;
     }
     public int getId(){
         return this.id;
     }
     public RoleName getRoleName(){
-        return this.roleName;
+        return this.name;
     }
     public void setId(int id){
         this.id = id;
     }
-    public void setRoleName(RoleName roleName){
-        this.roleName = roleName;
+    public void setRoleName(RoleName name){
+        this.name = name;
     }
 
     @Override
@@ -65,7 +65,7 @@ public class Roles {
         StringBuilder strBuilder = new StringBuilder();
         strBuilder.append("Role[");
         strBuilder.append("id = " + this.id + ", ");
-        strBuilder.append("name = "+this.roleName+"]");
+        strBuilder.append("name = "+this.name+"]");
         return strBuilder.toString();
     }
 

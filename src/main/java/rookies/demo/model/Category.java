@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.NaturalId;
+
 
 @Entity
 @Table(name = "category")
@@ -20,12 +22,13 @@ public class Category {
     Integer id;
 
     @Column(name = "category_name")
+    @NaturalId
     String name;
 
     @Column(name = "description")
     String description;
 
-    protected Category(){}
+    public Category(){}
     public Category(int id, String name, String description){
         this.id = id;
         this.name = name;

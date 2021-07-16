@@ -1,5 +1,6 @@
 package rookies.demo.model;
 
+import java.util.Set;
 import java.util.Objects;
 import java.util.Date;
 
@@ -11,9 +12,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import rookies.demo.model.Rating;
 
 @Entity
 @Table(name="product")
@@ -21,7 +25,7 @@ public class Product {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "role_id")
+    @Column(name = "id")
     Long id;
 
     @Column(name = "product_name")
@@ -33,9 +37,8 @@ public class Product {
     @Column(name = "price")
     double price;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "unit", referencedColumnName = "id")
-    Unit unit;
+    @Column(name = "unit")
+    String unit;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "created_by", referencedColumnName = "user_id")
@@ -53,8 +56,11 @@ public class Product {
     @Temporal(TemporalType.DATE)
     Date updatedDate;
 
+    @OneToMany(mappedBy = "product_id")
+    Set<Rating> rating;
+
     public Product(){}
-    public Product(long id, String productName, String productDescription, Double price, Unit unit, Category category, Date createdDate, Date updatedDate){
+    public Product(long id, String productName, String productDescription, Double price, String unit, Category category, Date createdDate, Date updatedDate, Set<Rating> rating){
         this.id = id;
         this.productName = productName;
         this.productDescription = productDescription;
@@ -63,8 +69,9 @@ public class Product {
         this.category = category;
         this.createdDate = createdDate;
         this.updatedDate = updatedDate;
+        this.rating = rating;
     }
-    public Product(String productName, String productDescription, Double price, Unit unit, Category category, Date createddDate, Date updatedDate){
+    public Product(String productName, String productDescription, Double price, String unit, Category category, Date createddDate, Date updatedDate, Set<Rating> rating){
         this.productName = productName;
         this.productDescription = productDescription;
         this.price = price;
@@ -72,6 +79,7 @@ public class Product {
         this.category = category;
         this.createdDate = createddDate;
         this.updatedDate = updatedDate;
+        this.rating = rating;
     }
     //GETTER
     public long getId(){
@@ -86,11 +94,20 @@ public class Product {
     public double getPrice(){
         return this.price;
     }
-    public Unit getUnit(){
+    public String getUnit(){
         return this.unit;
     }
     public Category getCategory(){
         return this.category;
+    }
+    public Date getCreatedDate(){
+        return this.createdDate;
+    }
+    public Date getUpdatedDate(){
+        return this.createdDate;
+    }
+    public Set<Rating> getRating(){
+        return this.rating;
     }
     //SETTER
     public void setId(long id){
@@ -105,11 +122,20 @@ public class Product {
     public void setPrice(double price){
         this.price = price;
     }
-    public void setUnit(Unit unit){
+    public void setUnit(String unit){
         this.unit = unit;
     }
     public void setCategory(Category category){
         this.category = category;
+    }
+    public void setCreatedDate(Date date){
+        this.createdDate = date;
+    }
+    public void setUpdateddDate(Date date){
+        this.createdDate = date;
+    }
+    public void setRating(Set<Rating> rating){
+        this.rating = rating;
     }
     @Override
     public int hashCode(){
@@ -140,7 +166,7 @@ public class Product {
         builder.append("name = "+this.productName+", ");
         builder.append("description = "+this.productDescription+", ");
         builder.append("price = "+this.price+", ");
-        builder.append("unit = "+this.unit.getName() + ", ");
+        builder.append("unit = "+this.unit + ", ");
         builder.append("category = "+this.category.getName() + "]\n");
         return builder.toString();
     }
