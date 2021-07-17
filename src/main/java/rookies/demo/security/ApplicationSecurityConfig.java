@@ -52,6 +52,9 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "api/v1/products/**", "api/v1/category/**").hasRole(RoleName.ADMIN.name())
                 .antMatchers(HttpMethod.DELETE, "api/v1/products/**", "api/v1/category/**").hasRole(RoleName.ADMIN.name())
                 .antMatchers(HttpMethod.PUT, "api/v1/products/**", "api/v1/category/**").hasRole(RoleName.ADMIN.name()).and()
+            .formLogin()
+            .loginPage("/login").permitAll().and()
+            .logout().permitAll().and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .httpBasic().and()
             .csrf().disable();

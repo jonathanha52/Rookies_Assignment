@@ -35,19 +35,19 @@ public class RatingDto {
         return this.productId;
     }
 
-    public void getId(long id){
+    public void setId(long id){
         this.id = id;
     }
-    public void getRating(int rating){
+    public void setRating(int rating){
         this.rating = rating;
     }
-    public void getComment(String comment){
+    public void setComment(String comment){
         this.comment = comment;
     }
-    public void getUserId(long userId){
+    public void setUserId(long userId){
         this.userId = userId;
     }
-    public void getProductId(long productId){
+    public void setProductId(long productId){
         this.productId = productId;
     }
 
