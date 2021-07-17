@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import rookies.demo.dto.ProductDto;
+import rookies.demo.dto.RatingDto;
 import rookies.demo.model.Rating;
 import rookies.demo.service.impl.RatingService;
 
@@ -27,24 +27,24 @@ public class RatingController {
         this.ratingService = ratingService;
     }
 
-    @GetMapping("/product={productId}")
+    @GetMapping("/productId={productId}")
     public List<Rating> getRatingOfProduct(@PathVariable("productId") long id){
-        //TODO: Implement 
-        return null;
+        return this.ratingService.findRatingOfProduct(id);
     }
 
-    @PostMapping("/product={productId}&user={userId}")
-    public void insertRating(@PathVariable("productId") long productId, @PathVariable("userId") long userId, @RequestBody ProductDto productDto){
-        //TODO: Implement
+    @PostMapping()
+    public void insertRating(@RequestBody RatingDto ratingDto){
+        Rating rating = this.ratingService.DtoToEntity(ratingDto);
+        this.ratingService.insertRating(rating);
     }
 
-    @PutMapping("/product={productId}&user={userId}")
-    public void updateRating(@PathVariable("productId") long productId, @PathVariable("userId") long userId, @RequestBody ProductDto productDto){
-        //TODO: Implement
+    @PutMapping("/productId={productId}&userId={userId}")
+    public void updateRating(@PathVariable("productId") long productId, @PathVariable("userId") long userId, @RequestBody RatingDto ratingDto){
+        this.ratingService.updateRating(userId, productId, ratingDto);
     }
 
-    @DeleteMapping
-    public void deleteMapping(@PathVariable("productId") long productId, @PathVariable("userId") long userId, @RequestBody ProductDto productDto){
-        //TODO: Implement
+    @DeleteMapping("/productId={productId}&userId={userId}")
+    public void deleteMapping(@PathVariable("productId") long productId, @PathVariable("userId") long userId){
+        this.ratingService.deleteRating(userId, productId);
     }
 }

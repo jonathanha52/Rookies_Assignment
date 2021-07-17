@@ -1,7 +1,9 @@
 package rookies.demo.model;
 
 import java.util.Objects;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import javax.persistence.GenerationType;
@@ -41,6 +44,11 @@ public class Users {
     @Column(name="last_name")
     String lastName = "";
 
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    List<Rating> ratings;
+
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    List<Product> createdProducts;
     public Users(){}
 
     public Users(long id, Roles role, String username, String email, String firstName, String lastName, String password){
@@ -74,6 +82,12 @@ public class Users {
     public Roles getRole(){
         return this.role;
     }
+    public List<Rating> getRatings(){
+        return this.ratings;
+    }
+    public List<Product> getCreatedProducts(){
+        return this.createdProducts;
+    }
     //SETTER
     public void setUserID(long id){
         this.userID = id;
@@ -95,6 +109,12 @@ public class Users {
     }
     public void setRole(Roles role){
         this.role = role;
+    }
+    public void setRatings(List<Rating> ratings){
+        this.ratings = ratings;
+    }
+    public void setCreatedProducts(List<Product> createdProducts){
+        this.createdProducts = createdProducts;
     }
 
     @Override

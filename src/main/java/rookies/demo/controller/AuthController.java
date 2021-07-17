@@ -26,9 +26,9 @@ import rookies.demo.payload.request.SignupRequest;
 import rookies.demo.payload.response.JwtResponse;
 import rookies.demo.payload.response.MessageResponse;
 import rookies.demo.repository.RoleRepository;
-import rookies.demo.repository.UsersRepository;
 import rookies.demo.security.jwt.JwtUtils;
 import rookies.demo.security.service.UserDetailsImpl;
+import rookies.demo.service.impl.UserService;
 
 @CrossOrigin(origins="*", maxAge = 3600)
 @RestController
@@ -36,15 +36,15 @@ import rookies.demo.security.service.UserDetailsImpl;
 public class AuthController {
     
     final private AuthenticationManager authenticationManager;
-    final private UsersRepository usersRepository;
+    final private UserService userService;
     final private RoleRepository roleRepository;
     final private PasswordEncoder encoder;
     final private JwtUtils jwtUtils;
 
-    public AuthController (AuthenticationManager authenticationManager, UsersRepository usersRepository,
+    public AuthController (AuthenticationManager authenticationManager, UserService userService,
         RoleRepository roleRepository, PasswordEncoder encoder, JwtUtils jwtUtils){
             this.authenticationManager = authenticationManager;
-            this.usersRepository = usersRepository;
+            this.userService = userService;
             this.roleRepository = roleRepository;
             this.encoder = encoder;
             this.jwtUtils = jwtUtils;
@@ -73,13 +73,13 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-        if (usersRepository.existsByUsername(signUpRequest.getUsername())) {
+        if (this.userService.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity
                 .badRequest()
                 .body(new MessageResponse("Error: Username is already taken!"));
         }
 
-        if (usersRepository.existsByEmail(signUpRequest.getEmail())) {
+        if (this.userService.existsByEmail(signUpRequest.getEmail())) {
             return ResponseEntity
                 .badRequest()
                 .body(new MessageResponse("Error: Email is already in use!"));
@@ -113,7 +113,7 @@ public class AuthController {
         }
 
         user.setRole(userRole);
-        usersRepository.save(user);
+        this.userService.insertUser(user);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }

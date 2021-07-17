@@ -4,6 +4,7 @@ import java.util.Set;
 import java.util.Objects;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,8 +17,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-import rookies.demo.model.Rating;
 
 @Entity
 @Table(name="product")
@@ -56,7 +55,7 @@ public class Product {
     @Temporal(TemporalType.DATE)
     Date updatedDate;
 
-    @OneToMany(mappedBy = "product_id")
+    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
     Set<Rating> rating;
 
     public Product(){}

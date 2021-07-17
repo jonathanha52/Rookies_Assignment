@@ -36,7 +36,7 @@ public class Rating {
     @Column(name = "comment")
     String comment;
 
-    protected Rating(){}
+    public Rating(){}
     public Rating(long id, Product product, Users user, int rating, String comment){
         this.id = id;
         this.product = product;
@@ -73,7 +73,7 @@ public class Rating {
     public void setRating(int rating){
         this.rating = rating;
     }
-    public void getComment(String comment){
+    public void setComment(String comment){
         this.comment = comment;
     }
 
