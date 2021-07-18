@@ -30,7 +30,7 @@ public class Roles {
     @Column(name = "role_name")
     RoleName name;
 
-    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
     List<Users> users;
 
     protected Roles(){}

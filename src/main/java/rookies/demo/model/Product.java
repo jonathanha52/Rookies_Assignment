@@ -55,7 +55,7 @@ public class Product {
     @Temporal(TemporalType.DATE)
     Date updatedDate;
 
-    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     Set<Rating> rating;
 
     public Product(){}
