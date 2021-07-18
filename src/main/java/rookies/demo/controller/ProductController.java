@@ -39,7 +39,7 @@ public class ProductController {
     }
     @GetMapping("/name={name}&page={page}")
     public List<Product> findByName(@PathVariable("name") String name, @PathVariable("page") int page){
-        return this.productService.findProductByName(name, page, ITEM_PER_PAGE);
+        return this.productService.findPagingByName(name, page, ITEM_PER_PAGE);
     }
 
     @GetMapping("/{id}")

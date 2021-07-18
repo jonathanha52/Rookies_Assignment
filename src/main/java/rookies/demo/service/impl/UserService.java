@@ -3,12 +3,14 @@ package rookies.demo.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import rookies.demo.repository.UsersRepository;
 import rookies.demo.service.IUserService;
 import rookies.demo.exception.IdNotFoundException;
 import rookies.demo.model.Users;
 
+@Service
 public class UserService implements IUserService{
     private final UsersRepository usersRepository;
     @Autowired

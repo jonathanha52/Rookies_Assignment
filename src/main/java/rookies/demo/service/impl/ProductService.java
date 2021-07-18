@@ -32,8 +32,15 @@ public class ProductService implements IProductService{
         this.productRepository = productRepository;
         this.categoryReposity = categoryReposity;
     }
-    public List<Product> findByProductName(String name){
+    @Override
+    public List<Product> findAllByName(String name){
         return productRepository.findByProductNameContaining(name);
+    }
+
+    @Override
+    public List<Product> findAllByCategory(String categoryName){
+        Category category = categoryReposity.findByName(categoryName).orElseThrow(() -> new CategoryNameNotFoundException(categoryName));
+        return this.productRepository.findByCategory(category);
     }
     @Override
     public Product findById(Long id){
@@ -78,7 +85,7 @@ public class ProductService implements IProductService{
     }
 
     @Override
-    public List<Product> findProductByName(String name, int page, int itemPerPage) {
+    public List<Product> findPagingByName(String name, int page, int itemPerPage) {
         int[] paging = this.calculatePage(page, itemPerPage);
         Pageable pageable = PageRequest.of(paging[0], paging[1]);
         List<Product> result = this.productPagingRepository.findAllByProductNameContaining(name, pageable);
@@ -86,7 +93,7 @@ public class ProductService implements IProductService{
     }
 
     @Override
-    public List<Product> findByCategory(String category, int page, int itemPerPage) {
+    public List<Product> findPagingByCategory(String category, int page, int itemPerPage) {
         Category resultCategory = this.categoryReposity.findByName(category).orElseThrow(() -> new CategoryNameNotFoundException(category));
         int[] paging = this.calculatePage(page, itemPerPage);
         Pageable pageable = PageRequest.of(paging[0], paging[1]);
