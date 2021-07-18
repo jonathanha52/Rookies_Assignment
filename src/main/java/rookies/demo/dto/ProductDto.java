@@ -5,7 +5,9 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode
 public class ProductDto {
     @JsonProperty(access = Access.READ_ONLY)
     Long id;

@@ -33,7 +33,7 @@ public class Roles {
     @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
     List<Users> users;
 
-    protected Roles(){}
+    public Roles(){}
     public Roles(int id, RoleName name){
         this.id = id;
         this.name = name;

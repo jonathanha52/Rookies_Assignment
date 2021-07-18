@@ -59,7 +59,7 @@ public class Product {
     Set<Rating> rating;
 
     public Product(){}
-    public Product(long id, String productName, String productDescription, Double price, String unit, Category category, Date createdDate, Date updatedDate, Set<Rating> rating){
+    public Product(long id, String productName, String productDescription, Double price, String unit, Category category, Date createdDate, Date updatedDate){
         this.id = id;
         this.productName = productName;
         this.productDescription = productDescription;
@@ -68,9 +68,8 @@ public class Product {
         this.category = category;
         this.createdDate = createdDate;
         this.updatedDate = updatedDate;
-        this.rating = rating;
     }
-    public Product(String productName, String productDescription, Double price, String unit, Category category, Date createddDate, Date updatedDate, Set<Rating> rating){
+    public Product(String productName, String productDescription, Double price, String unit, Category category, Date createddDate, Date updatedDate){
         this.productName = productName;
         this.productDescription = productDescription;
         this.price = price;
@@ -78,7 +77,6 @@ public class Product {
         this.category = category;
         this.createdDate = createddDate;
         this.updatedDate = updatedDate;
-        this.rating = rating;
     }
     //GETTER
     public long getId(){

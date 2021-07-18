@@ -35,7 +35,6 @@ public class ProductControllerTest {
     private final Category TEST_CATEGORY = new Category(1, "test category","this is test category");
     private final Date TEST_DATE = new Date();
     private final String TEST_UNIT = "test unit";
-    private final Set<Rating> RATING = new HashSet<>();
     private final Product VALID_PRODUCT = new Product(
         VALID_ID, 
         "valid product", 
@@ -44,8 +43,7 @@ public class ProductControllerTest {
         TEST_UNIT,
         TEST_CATEGORY,
         TEST_DATE,
-        TEST_DATE,
-        RATING);
+        TEST_DATE);
     private final ArrayList<Product> PRODUCT_LIST = new ArrayList<>(Arrays.asList(VALID_PRODUCT));
     @Autowired
     private MockMvc mockMvc;
