@@ -28,7 +28,6 @@ import rookies.demo.service.impl.ProductService;
 import rookies.demo.exception.IdNotFoundException;
 import rookies.demo.model.Category;
 import rookies.demo.model.Product;
-import rookies.demo.model.Rating;
 
 @SpringBootTest
 public class ProductServiceTest {
@@ -40,7 +39,6 @@ public class ProductServiceTest {
     private final Category TEST_CATEGORY = new Category(1, "test category","this is test category");
     private final Date TEST_DATE = new Date();
     private final String TEST_UNIT = "test unit";
-    private final Set<Rating> RATING = new HashSet<>();
     private final Product VALID_PRODUCT = new Product(
         VALID_ID, 
         "valid product", 
@@ -49,8 +47,7 @@ public class ProductServiceTest {
         TEST_UNIT,
         TEST_CATEGORY,
         TEST_DATE,
-        TEST_DATE,
-        RATING);
+        TEST_DATE);
     private final Product INVALID_PRODUCT = new Product(
         INVALID_ID, 
         "invalid product", 
@@ -59,8 +56,7 @@ public class ProductServiceTest {
         TEST_UNIT,
         TEST_CATEGORY,
         TEST_DATE,
-        TEST_DATE,
-        RATING);
+        TEST_DATE);
     private final List<Product> TEST_PRODUCT_LIST = new ArrayList<Product>(Arrays.asList(VALID_PRODUCT));
 
     @Mock
@@ -83,8 +79,8 @@ public class ProductServiceTest {
     }
     @Test
     public void findPagingProductByName(){
-        when(productPagingRepository.findAllByProductNameContaining("valid product", PAGEABLE)).thenReturn(TEST_PRODUCT_LIST);
-        List<Product> result = productService.findPagingByName("valid product", PAGE, ITEM_PER_PAGE);
+        when(productRepository.findByProductNameContaining("valid product")).thenReturn(TEST_PRODUCT_LIST);
+        List<Product> result = productService.findAllByName("valid product");
         assertEquals(TEST_PRODUCT_LIST.size(), result.size());
     }
     @Test
@@ -106,8 +102,8 @@ public class ProductServiceTest {
     @Test
     public void testPagingFindByCategory(){
         when(categoryRepository.findByName(TEST_CATEGORY.getName())).thenReturn(Optional.of(TEST_CATEGORY));
-        when(productPagingRepository.findAllByCategory(TEST_CATEGORY, PAGEABLE)).thenReturn(TEST_PRODUCT_LIST);
-        List<Product> result = productService.findPagingByCategory(TEST_CATEGORY.getName(), PAGE, ITEM_PER_PAGE);
+        when(productRepository.findByCategory(TEST_CATEGORY)).thenReturn(TEST_PRODUCT_LIST);
+        List<Product> result = productService.findAllByCategory(TEST_CATEGORY.getName());
         assertEquals(result.size(), TEST_PRODUCT_LIST.size());
     }
 

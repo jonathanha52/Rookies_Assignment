@@ -3,6 +3,9 @@ package rookies.demo.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
+import lombok.EqualsAndHashCode;
+
+@EqualsAndHashCode
 public class RatingDto {
     @JsonProperty(access = Access.READ_ONLY)
     Long id;
