@@ -2,6 +2,7 @@ package rookies.demo.model;
 
 import java.util.Set;
 import java.util.Objects;
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -18,12 +19,14 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="product")
-public class Product {
+public class Product implements Serializable {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     Long id;
 
@@ -32,6 +35,9 @@ public class Product {
 
     @Column(name = "product_description")
     String productDescription;
+
+    @Column(name = "img_url")
+    String imgUrl;
 
     @Column(name = "price")
     double price;
@@ -55,6 +61,7 @@ public class Product {
     @Temporal(TemporalType.DATE)
     Date updatedDate;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     Set<Rating> rating;
 
@@ -79,7 +86,7 @@ public class Product {
         this.updatedDate = updatedDate;
     }
     //GETTER
-    public long getId(){
+    public Long getId(){
         return this.id;
     }
     public String getProductName(){
@@ -106,8 +113,11 @@ public class Product {
     public Set<Rating> getRating(){
         return this.rating;
     }
+    public String getImgUrl(){
+        return this.imgUrl;
+    }
     //SETTER
-    public void setId(long id){
+    public void setId(Long id){
         this.id = id;;
     }
     public void setProductName(String productName){
@@ -133,6 +143,9 @@ public class Product {
     }
     public void setRating(Set<Rating> rating){
         this.rating = rating;
+    }
+    public void setImgUrl(String imgUrl){
+        this.imgUrl = imgUrl;
     }
     @Override
     public int hashCode(){

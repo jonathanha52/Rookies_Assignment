@@ -3,8 +3,6 @@ package rookies.demo.controller;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.Set;
-import java.util.HashSet;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +22,6 @@ import rookies.demo.repository.ProductRepository;
 import rookies.demo.service.impl.ProductService;
 import rookies.demo.model.Product;
 import rookies.demo.model.Category;
-import rookies.demo.model.Rating;
 
 import rookies.demo.utils.ConvertJSONString;
 

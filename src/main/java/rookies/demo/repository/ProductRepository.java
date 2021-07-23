@@ -8,6 +8,7 @@ import rookies.demo.model.Category;
 
 @Repository("productRepo")
 public interface ProductRepository extends JpaRepository<Product, Long>{
+    public List<Product> findAll();
     public List<Product> findByProductNameContaining(String name);
     public List<Product> findByCategory(Category category);
 }

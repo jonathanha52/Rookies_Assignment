@@ -46,20 +46,21 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
             .cors().and()
             .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
             .authorizeRequests()
-                .antMatchers("api/v1/").permitAll()
-                .antMatchers("api/v1/auth/**").permitAll()
-                .antMatchers(HttpMethod.GET, "api/v1/products/**", "api/v1/category/**").permitAll()
+                .antMatchers("api/v1/auth**").anonymous()
+                .antMatchers("api/v1/ratings**").permitAll()
+                .antMatchers(HttpMethod.GET, "api/v1/products**", "api/v1/category**").permitAll().and()
+            .authorizeRequests()
+                .antMatchers(HttpMethod.GET, "apl/v1/customers", "apl/v1/customers/**").hasAnyAuthority(RoleName.ADMIN.name())
                 .antMatchers(HttpMethod.POST, "api/v1/products/**", "api/v1/category/**").hasRole(RoleName.ADMIN.name())
                 .antMatchers(HttpMethod.DELETE, "api/v1/products/**", "api/v1/category/**").hasRole(RoleName.ADMIN.name())
                 .antMatchers(HttpMethod.PUT, "api/v1/products/**", "api/v1/category/**").hasRole(RoleName.ADMIN.name()).and()
-            .formLogin()
-            .loginPage("/login").permitAll().and()
+            .formLogin().loginPage("/login").permitAll().and()
             .logout().permitAll().and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .httpBasic().and()
             .csrf().disable();
         
-        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class).anonymous();
     }
 
     @Override
@@ -89,6 +90,11 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         authenticationManagerBuilder
                 .userDetailsService(userDetailsService)
                 .passwordEncoder(this.passwordEncoder);
+        authenticationManagerBuilder
+            .inMemoryAuthentication().withUser("admin").password(passwordEncoder.encode("admin")).roles(RoleName.ADMIN.name());
+        
+        authenticationManagerBuilder
+            .inMemoryAuthentication().withUser("user").password(passwordEncoder.encode("user")).roles(RoleName.CUSTOMER.name());
     }
 
     @Bean

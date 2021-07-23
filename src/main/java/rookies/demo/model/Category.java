@@ -21,7 +21,7 @@ import org.hibernate.annotations.NaturalId;
 public class Category {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
     Integer id;
 

@@ -36,13 +36,6 @@ public class RatingServiceTest {
         3,
         "Test rating"
     );
-    private final RatingDto RATING_DTO = new RatingDto(
-        VALID_ID,
-        3,
-        VALID_ID,
-        VALID_ID,
-        "Test rating"
-    );
     public final List<Rating> TEST_RATING_LIST = new ArrayList<>(Arrays.asList(RATING));
     @Mock
     RatingRepository ratingRepository;
