@@ -10,7 +10,7 @@ public class TestConfiguration {
     public static final long INVALID_ID = -1L;
     public static final String GENERIC_STRING = "test";
     public static final Date TEST_DATE = new Date();
-
+    public static final String IMG_URL = "http://via.placeholder.com/1024x768";
     public static final Roles TEST_ROLE = new Roles(1, RoleName.ADMIN);
     public static final Category TEST_CATEGORY = new Category(1, GENERIC_STRING, GENERIC_STRING);
     public static final Product TEST_PRODUCT = new Product(
@@ -45,6 +45,7 @@ public class TestConfiguration {
         GENERIC_STRING,
         GENERIC_STRING,
         VALID_ID,
+        IMG_URL,
         GENERIC_STRING,
         0.1,
         TEST_DATE, 

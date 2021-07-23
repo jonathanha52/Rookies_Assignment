@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
 import javax.persistence.JoinColumn;
 
 @Entity
@@ -18,12 +19,12 @@ import javax.persistence.JoinColumn;
 public class Rating {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "rating_id")
     Long id;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "product_id", referencedColumnName = "product_name")
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
     Product product;
 
     @OneToOne(fetch = FetchType.EAGER)

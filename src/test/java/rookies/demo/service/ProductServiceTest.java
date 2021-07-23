@@ -10,11 +10,6 @@ import java.util.List;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Set;
-import java.util.HashSet;
-
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.PageRequest;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -31,9 +26,6 @@ import rookies.demo.model.Product;
 
 @SpringBootTest
 public class ProductServiceTest {
-    private final int PAGE = 1;
-    private final int ITEM_PER_PAGE = 2;
-    private final Pageable PAGEABLE = PageRequest.of(PAGE, ITEM_PER_PAGE);
     private final Long INVALID_ID = -1L;
     private final Long VALID_ID = 1L;
     private final Category TEST_CATEGORY = new Category(1, "test category","this is test category");

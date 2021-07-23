@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.GenerationType;
@@ -30,6 +32,7 @@ public class Roles {
     @Column(name = "role_name")
     RoleName name;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
     List<Users> users;
 

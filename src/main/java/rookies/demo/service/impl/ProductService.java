@@ -120,6 +120,7 @@ public class ProductService implements IProductService{
         product.setUnit(productDto.getUnit());
         product.setCreatedDate(productDto.getCreatedDate());
         product.setUpdateddDate(productDto.getUpdatedDate());
+        product.setImgUrl(productDto.getImgUrl());
         return product;
     }
 
@@ -134,6 +135,7 @@ public class ProductService implements IProductService{
         productDto.setUpdatedDate(product.getUpdatedDate());
         productDto.setName(product.getProductName());
         productDto.setPrice(product.getPrice());
+        productDto.setImgUrl(product.getImgUrl());
         return productDto;
     }
     
