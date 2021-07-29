@@ -25,26 +25,25 @@ public class CategoryController {
     @Autowired
     CategoryService categoryService;
 
-    @GetMapping
+    @GetMapping("/public")
     public List<Category> findAllCategory(){
         return this.categoryService.findAllCategory();    
     }
 
-    @PostMapping
+    @PostMapping("/admin")
     public void insertCategory(@RequestBody CategoryDto categoryDto){
         Category category = this.categoryService.DtoToEntity(categoryDto);
         this.categoryService.insertCategory(category);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/admin/{id}")
     public void updateCategory(@PathVariable("id") int id, @RequestBody CategoryDto categoryDto){
         Category category = this.categoryService.DtoToEntity(categoryDto);
         this.categoryService.updateCategory(id, category);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteProduct(@PathVariable("id") int id, @RequestBody CategoryDto categoryDto){
-        Category category = this.categoryService.DtoToEntity(categoryDto);
-        this.categoryService.deleteCategory(id, category);
+    @DeleteMapping("/admin/{id}")
+    public void deleteProduct(@PathVariable("id") int id){
+        this.categoryService.deleteCategory(id);
     }
 }

@@ -31,11 +31,6 @@ public class CategoryServiceTest {
         CATEGORY_NAME,
         CATEGORY_DESCRIPTION
     );
-    private final Category INVALID_CATEGORY = new Category(
-        INVALID_ID,
-        CATEGORY_NAME,
-        CATEGORY_DESCRIPTION
-    );
     private final List<Category> ALL_CATEGORY = new ArrayList<>(Arrays.asList(VALID_CATEGORY));
     
     @Mock
@@ -71,7 +66,7 @@ public class CategoryServiceTest {
     public void testDeleteCategory_CategoryNotFound(){
         when(categoryRepository.findById(INVALID_ID)).thenThrow(new IdNotFoundException(INVALID_ID));
         assertThrows(IdNotFoundException.class, () ->{
-            categoryService.deleteCategory(INVALID_ID, INVALID_CATEGORY);
+            categoryService.deleteCategory(INVALID_ID);
         });
     }
 }

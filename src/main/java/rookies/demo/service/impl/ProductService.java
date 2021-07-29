@@ -53,8 +53,8 @@ public class ProductService implements IProductService{
     }
 
     @Override
-    public void deleteProduct(long id, Product product) {
-        this.productRepository.findById(product.getId()).orElseThrow(() -> new IdNotFoundException(product.getId()));
+    public void deleteProduct(long id) {
+        Product product = this.productRepository.findById(id).orElseThrow(() -> new IdNotFoundException(id));
         this.productRepository.delete(product);
     }
 
@@ -67,6 +67,7 @@ public class ProductService implements IProductService{
         result.setProductDescription(product.getProductDescription());
         result.setProductName(product.getProductName());
         result.setUnit(product.getUnit());
+        result.setUpdateddDate(product.getUpdatedDate());
     }
     @Override
     public List<Product> findProductByPage(int page, int itemPerPage) {

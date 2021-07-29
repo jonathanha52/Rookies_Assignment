@@ -109,7 +109,7 @@ public class ProductServiceTest {
     @Test
     public void testDeleteProduct_productNotFound(){
         assertThrows(IdNotFoundException.class, () -> {
-            productService.deleteProduct(INVALID_ID,INVALID_PRODUCT);
+            productService.deleteProduct(INVALID_ID);
         });
     }
 }

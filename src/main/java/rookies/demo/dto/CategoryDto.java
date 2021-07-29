@@ -3,9 +3,6 @@ package rookies.demo.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
-import lombok.EqualsAndHashCode;
-
-@EqualsAndHashCode
 public class CategoryDto {
     @JsonProperty(access = Access.READ_ONLY)
     Integer id;

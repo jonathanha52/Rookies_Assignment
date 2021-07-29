@@ -46,7 +46,7 @@ public class Rating {
         this.comment = comment;
     }
     //GETTER
-    public long getId(){
+    public Long getId(){
         return this.id;
     }
     public Product getProduct(){
@@ -62,7 +62,7 @@ public class Rating {
         return this.comment;
     }
     //SETTER
-    public void setId(long id){
+    public void setId(Long id){
         this.id = id;
     }
     public void setProduct(Product product){

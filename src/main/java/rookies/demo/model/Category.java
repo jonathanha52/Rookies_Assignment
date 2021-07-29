@@ -13,8 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.NaturalId;
-
 
 @Entity
 @Table(name = "category")
@@ -25,14 +23,13 @@ public class Category {
     @Column(name = "category_id")
     Integer id;
 
-    @Column(name = "category_name")
-    @NaturalId
+    @Column(name = "category_name", unique = true)
     String name;
 
     @Column(name = "description")
     String description;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "id")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
     List<Product> products;
 
     public Category(){}
@@ -42,7 +39,7 @@ public class Category {
         this.description = description;
     }
     //GETTER
-    public int getId(){
+    public Integer getId(){
         return this.id;
     }
     public String getName() {
@@ -52,7 +49,7 @@ public class Category {
         return this.description;
     }
     //SETTER
-    public void setId(int id){
+    public void setId(Integer id){
         this.id = id;
     }
     public void setName(String name){
