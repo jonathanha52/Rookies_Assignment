@@ -1,6 +1,9 @@
 package rookies.demo.security.jwt;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,6 +16,8 @@ import io.jsonwebtoken.*;
 
 @Component("jwtUtils")
 public class JwtUtils {
+
+    private final Set<String> jwtBlackList = new HashSet<>();
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
     @Value("${rookies.app.jwtSecret}")
@@ -51,5 +56,14 @@ public class JwtUtils {
         }
 
         return false;
+    }
+    public boolean blacklistingJwt(String jwt){
+        if(this.jwtBlackList.contains(jwt))
+            return false;
+        jwtBlackList.add(jwt);
+        return true;
+    }
+    public boolean jwtIsBlacklisted(String jwt){
+        return this.jwtBlackList.contains(jwt);
     }
 }

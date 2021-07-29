@@ -1,6 +1,7 @@
 package rookies.demo.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import rookies.demo.dto.CategoryDto;
 import rookies.demo.exception.DuplicateException;
 import rookies.demo.exception.IdNotFoundException;
+import rookies.demo.exception.CategoryException.DuplicateNameException;
 import rookies.demo.model.Category;
 import rookies.demo.repository.CategoryRepository;
 import rookies.demo.service.ICategoryService;
@@ -33,13 +35,20 @@ public class CategoryService implements ICategoryService {
     public void updateCategory(int id, Category category) {
         Category result = this.categoryRepository.findById(id).orElseThrow(
             () -> new IdNotFoundException(id));
-        result.setName(category.getName());
+        Optional<Category> test = this.categoryRepository.findByName(category.getName());
+        if(test.isPresent()){
+            if(test.get().getId() != id)
+                throw new DuplicateNameException(category.getName());
+        }
+        else{
+            result.setName(category.getName());
         result.setDescrption(category.getDescription());
+        }
     }
 
     @Override
-    public void deleteCategory(int id, Category category) {
-        this.categoryRepository.findById(id).orElseThrow(
+    public void deleteCategory(int id) {
+        Category category =  this.categoryRepository.findById(id).orElseThrow(
             () -> new IdNotFoundException(id));
         this.categoryRepository.delete(category);
         
@@ -47,8 +56,8 @@ public class CategoryService implements ICategoryService {
 
     @Override
     public void insertCategory(Category category) {
-        Category result = this.categoryRepository.findByName(category.getName()).orElse(null);
-        if(result == null)
+        Optional<Category> result = this.categoryRepository.findByName(category.getName());
+        if(!result.isPresent())
             this.categoryRepository.save(category);
         else
             throw new DuplicateException("Category");
@@ -59,7 +68,6 @@ public class CategoryService implements ICategoryService {
         Category entity = new Category();
         entity.setName(categoryDto.getName());
         entity.setDescrption(categoryDto.getDescription());
-        entity.setId(categoryDto.getId());
         return entity;
     }
 

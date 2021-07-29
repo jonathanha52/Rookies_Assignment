@@ -2,8 +2,8 @@
 insert into ROLES (role_id, role_name) values (1, 'ADMIN')
 insert into ROLES (role_id, role_name) values (2, 'CUSTOMER')
 
-insert into USERS (role_id, "password", username, email, first_name, last_name) values (1, '1234', 'admin', 'admin@mail.com', '', '')
-insert into USERS (role_id, "password", username, email, first_name, last_name) values (2, '1234', 'guest', 'guest@mail.com', '', '')
+insert into USERS (role_id, "password", username, email, first_name, last_name) values (1, '1234', 'temp1', 'temp1@mail.com', '', '')
+insert into USERS (role_id, "password", username, email, first_name, last_name) values (2, '1234', 'temp2', 'temp2@mail.com', '', '')
 
 insert into CATEGORY (category_name, description) values ('Clothes', 'Stuff that made from fabric')
 insert into CATEGORY (category_name, description) values ('Electronic', 'Stuff that use electricity')
@@ -23,6 +23,7 @@ insert into PRODUCT (product_name, product_description, img_url, price, unit, cr
 insert into PRODUCT (product_name, product_description, img_url, price, unit, created_by, created_date, updated_date, category) values ('Tivi', 'Tivi', 'https://i.imgur.com/8w14a4Z.jpg', 17000000, 'Cai', 1, '2021-07-22','2021-07-22', 2)
 
 insert into RATING (product_id, "user_id", rating, comment) values (1, 1, 3, 'Tam on')
+insert into RATING (product_id, "user_id", rating, comment) values (1, 2, 5, 'Tuyet voi')
 insert into RATING (product_id, "user_id", rating, comment) values (2, 1, 4, 'Tot')
 insert into RATING (product_id, "user_id", rating, comment) values (3, 2, 3, 'Tam on')
 insert into RATING (product_id, "user_id", rating, comment) values (4, 2, 3, 'Tam on')

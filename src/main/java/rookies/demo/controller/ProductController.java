@@ -31,41 +31,40 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping
+    @GetMapping("/public")
     public List<Product> mainPage(){
         return this.productService.findAll();
     }
-    @GetMapping("/page={page}")
+    @GetMapping("/public/page={page}")
     public List<Product> findByPage(@PathVariable("page") int page){
         return this.productService.findProductByPage(page, ITEM_PER_PAGE);
     }
-    @GetMapping("/name={name}")
+    @GetMapping("/public/name={name}")
     public List<Product> findByName(@PathVariable("name") String name){
         return this.productService.findAllByName(name);
     }
-    @GetMapping("/name={name}&page={page}")
+    @GetMapping("/public/name={name}&page={page}")
     public List<Product> findByName(@PathVariable("name") String name, @PathVariable("page") int page){
         return this.productService.findPagingByName(name, page, ITEM_PER_PAGE);
     }
 
-    @GetMapping("/id={id}")
+    @GetMapping("/public/id={id}")
     public Product findById(@PathVariable("id") long id){
         return this.productService.findById(id);
     }
     
-    @PostMapping
+    @PostMapping("/admin")
     public void addProduct(@RequestBody ProductDto productDto){
         Product product = productService.DtoToEntity(productDto);
         this.productService.insertProduct(product);
     }
     
-    @DeleteMapping("/id={id}")
-    public void deleteProduct(@PathVariable("id") long id, @RequestBody ProductDto productDto){
-        Product product = productService.DtoToEntity(productDto);
-        this.productService.deleteProduct(id, product);
+    @DeleteMapping("/admin/id={id}")
+    public void deleteProduct(@PathVariable("id") long id){
+        this.productService.deleteProduct(id);
     }
 
-    @PutMapping("/id={id}")
+    @PutMapping("/admin/id={id}")
     public void updateProduct(@PathVariable("id") long id, @RequestBody ProductDto productDto){
         Product product = productService.DtoToEntity(productDto);
         this.productService.updateProduct(id, product);

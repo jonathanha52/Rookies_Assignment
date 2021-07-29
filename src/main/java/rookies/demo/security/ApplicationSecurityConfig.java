@@ -3,9 +3,9 @@ package rookies.demo.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -23,8 +23,10 @@ import rookies.demo.security.jwt.JwtAuthTokenFilter;
 import rookies.demo.security.jwt.JwtUtils;
 import rookies.demo.security.service.UserDetailsServiceImpl;
 
+
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsServiceImpl userDetailsService;
@@ -43,24 +45,18 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception{
         http
-            .cors().and()
+            .cors().and().csrf().disable()
             .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
             .authorizeRequests()
-                .antMatchers("api/v1/auth**").anonymous()
-                .antMatchers("api/v1/ratings**").permitAll()
-                .antMatchers(HttpMethod.GET, "api/v1/products**", "api/v1/category**").permitAll().and()
-            .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "apl/v1/customers", "apl/v1/customers/**").hasAnyAuthority(RoleName.ADMIN.name())
-                .antMatchers(HttpMethod.POST, "api/v1/products/**", "api/v1/category/**").hasRole(RoleName.ADMIN.name())
-                .antMatchers(HttpMethod.DELETE, "api/v1/products/**", "api/v1/category/**").hasRole(RoleName.ADMIN.name())
-                .antMatchers(HttpMethod.PUT, "api/v1/products/**", "api/v1/category/**").hasRole(RoleName.ADMIN.name()).and()
-            .formLogin().loginPage("/login").permitAll().and()
-            .logout().permitAll().and()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-            .httpBasic().and()
-            .csrf().disable();
-        
-        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class).anonymous();
+                .antMatchers("/api/v1/auth/**").permitAll()
+                .antMatchers("/api/v1/ratings/**").permitAll()
+                .antMatchers("/api/v1/**/public/**").permitAll()
+                .antMatchers("/api/v1/**/admin/**").hasAnyAuthority(RoleName.ADMIN.name())
+                .anyRequest().authenticated().and()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+            
+        http.logout().logoutUrl("api/v1/auth/signout").invalidateHttpSession(true);
+        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override

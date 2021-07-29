@@ -1,6 +1,7 @@
 package rookies.demo.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import rookies.demo.dto.RatingDto;
 import rookies.demo.exception.IdNotFoundException;
+import rookies.demo.exception.RatingException.DuplicateRatingException;
+import rookies.demo.exception.RatingException.RatingNotFoundException;
 import rookies.demo.model.Product;
 import rookies.demo.model.Rating;
 import rookies.demo.repository.ProductRepository;
@@ -37,7 +40,11 @@ public class RatingService implements IRatingService{
 
    @Override
     public void insertRating(Rating rating) {
-        this.ratingRepository.save(rating);
+        Optional<Rating> test = this.ratingRepository.findByUserAndProduct(rating.getUser(), rating.getProduct());
+        if(!test.isPresent())
+            this.ratingRepository.save(rating);
+        else
+            throw new DuplicateRatingException();
         
     }
 
@@ -45,7 +52,7 @@ public class RatingService implements IRatingService{
     public void deleteRating(Long userId, Long productId) {
         Product product = this.productRepository.findById(productId).orElseThrow(() -> new IdNotFoundException(productId));
         Users user = this.usersRepository.findById(userId).orElseThrow(() -> new IdNotFoundException(userId));
-        Rating rating = this.ratingRepository.findByUserAndProduct(user, product);
+        Rating rating = this.ratingRepository.findByUserAndProduct(user, product).orElseThrow(() -> new RatingNotFoundException());
         this.ratingRepository.delete(rating);
     }
 
@@ -54,7 +61,7 @@ public class RatingService implements IRatingService{
     public void updateRating(Long userId, Long productId, RatingDto ratingDto) {
         Product product = this.productRepository.findById(productId).orElseThrow(() -> new IdNotFoundException(productId));
         Users user = this.usersRepository.findById(userId).orElseThrow(() -> new IdNotFoundException(userId));
-        Rating rating = this.ratingRepository.findByUserAndProduct(user, product);
+        Rating rating = this.ratingRepository.findByUserAndProduct(user, product).orElseThrow(() -> new RatingNotFoundException());
         rating.setComment(ratingDto.getComment());
         rating.setRating(ratingDto.getRating());
     }
@@ -66,7 +73,6 @@ public class RatingService implements IRatingService{
         result.setComment(ratingDto.getComment());
         result.setRating(ratingDto.getRating());
         result.setUser(user);
-        result.setId(ratingDto.getId());
         result.setProduct(product);
 
         return result;

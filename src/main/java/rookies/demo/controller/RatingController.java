@@ -29,23 +29,23 @@ public class RatingController {
         this.ratingService = ratingService;
     }
 
-    @GetMapping("/productId={productId}")
+    @GetMapping("/public/productId={productId}")
     public List<Rating> getRatingOfProduct(@PathVariable("productId") long id){
         return this.ratingService.findRatingOfProduct(id);
     }
 
-    @PostMapping()
+    @PostMapping("/public")
     public void insertRating(@RequestBody RatingDto ratingDto){
         Rating rating = this.ratingService.DtoToEntity(ratingDto);
         this.ratingService.insertRating(rating);
     }
 
-    @PutMapping("/productId={productId}&userId={userId}")
-    public void updateRating(@PathVariable("productId") long productId, @PathVariable("userId") long userId, @RequestBody RatingDto ratingDto){
-        this.ratingService.updateRating(userId, productId, ratingDto);
+    @PutMapping("/public")
+    public void updateRating(@RequestBody RatingDto ratingDto){
+        this.ratingService.updateRating(ratingDto.getUserId(), ratingDto.getProductId(), ratingDto);
     }
 
-    @DeleteMapping("/productId={productId}&userId={userId}")
+    @DeleteMapping("/public/productId={productId}&userId={userId}")
     public void deleteMapping(@PathVariable("productId") long productId, @PathVariable("userId") long userId){
         this.ratingService.deleteRating(userId, productId);
     }

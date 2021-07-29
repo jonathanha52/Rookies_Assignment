@@ -15,7 +15,7 @@ public interface IProductService {
     public List<Product> findPagingByCategory(String category, int page, int itemPerPage);
     public Product findById(Long id);
     public void insertProduct(Product product);
-    public void deleteProduct(long id, Product product);
+    public void deleteProduct(long id);
     public void updateProduct(long id, Product product);
     public Product DtoToEntity(ProductDto productDto);
     public ProductDto EntityToDto(Product product);
